@@ -1,6 +1,7 @@
 USE PackageDB
 GO
 
+--this table use for showing the details of income or expense, the data will have show two different type from income or expense
 CREATE TABLE IncomeExpenseDetails
 (
 	PTime datetime not null,

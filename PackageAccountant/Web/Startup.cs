@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Web.Domain.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace Web
 {
@@ -37,6 +38,8 @@ namespace Web
 
             var connection = Configuration.GetConnectionString("PackageDatabase");
             services.AddDbContext<EFDbContext>(options => options.UseSqlServer(connection));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +51,13 @@ namespace Web
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvc();
+            app.UseMvc(route=> 
+            {
+                route.MapRoute(
+                        name: "default",
+                        template: "{controller=values}/{action=Index}/{id?}"
+                    );
+            });
         }
     }
 }
