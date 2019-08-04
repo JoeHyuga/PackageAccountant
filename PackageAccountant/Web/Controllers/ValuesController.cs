@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Common.ICommon;
 using System.IO;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using BLL.Operate;
+using DAL;
 
 namespace Web.Controllers
 {
@@ -17,10 +18,12 @@ namespace Web.Controllers
     public class ValuesController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly EFPackageDbContext _context;
 
-        public ValuesController(IHostingEnvironment hostingEnvironment)
+        public ValuesController(IHostingEnvironment hostingEnvironment, EFPackageDbContext context)
         {
             _hostingEnvironment = hostingEnvironment;
+            _context = context;
         }
         #region example
         // GET api/values
@@ -64,20 +67,25 @@ namespace Web.Controllers
             long size = files.Sum(f => f.Length);
             string webRootPath = _hostingEnvironment.WebRootPath;
             string connectRootPath = _hostingEnvironment.ContentRootPath;
-
+            string newFileName = ""; long fileSize = 0;
             foreach (var formFile in files)
             {
                 var arry = formFile.FileName.Split('.');
                 string fileExt = arry[arry.Length-1]; //文件扩展名，不含“.”
-                long fileSize = formFile.Length; //获得文件大小，以字节为单位
-                string newFileName = System.Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
+                fileSize = formFile.Length; //获得文件大小，以字节为单位
+                newFileName = System.Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
                 var filePath = webRootPath.Split("\\")[0] + "\\upload\\" + newFileName;
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await formFile.CopyToAsync(stream);
                 }
+
+                new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now.Date,size= fileSize.ToString(),backuppath=filePath});
             }
-            return Ok(new { count = files.Count, size });
+            return Ok(new {
+                name=newFileName,
+                count= fileSize
+            });
         }
     }
 }
