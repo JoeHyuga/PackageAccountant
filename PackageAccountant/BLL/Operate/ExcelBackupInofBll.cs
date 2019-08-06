@@ -17,9 +17,6 @@ namespace BLL.Operate
         public void Insert(ExcelBackupInfor entity)
         {
             var unit =new UnitOfWork(_context);
-            /*
-             do some operation for this program
-             */
             unit.ExcelBackupInforRepository.Insert(entity);
             unit.saveChange();
         }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using BLL.Operate;
 using DAL;
+using Common;
 
 namespace Web.Controllers
 {
@@ -79,8 +80,9 @@ namespace Web.Controllers
                 {
                     await formFile.CopyToAsync(stream);
                 }
-
+                //add the backup information
                 new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now.Date,size= fileSize.ToString(),backuppath=filePath});
+                var data= new OfficeHelper().ReadExcelToDataTable(filePath);
             }
             return Ok(new {
                 name=newFileName,
