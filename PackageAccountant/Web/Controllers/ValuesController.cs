@@ -83,6 +83,8 @@ namespace Web.Controllers
                 //add the backup information
                 new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now.Date,size= fileSize.ToString(),backuppath=filePath});
                 var data= new OfficeHelper().ReadExcelToDataTable(filePath);
+                //insert account iterm data
+                new AccountItermDetailsBll(_context).Insert(data);
             }
             return Ok(new {
                 name=newFileName,
