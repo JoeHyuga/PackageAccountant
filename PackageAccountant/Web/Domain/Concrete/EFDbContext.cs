@@ -9,10 +9,12 @@ namespace Web.Domain.Concrete
 {
     public class EFDbContext:DbContext
     {
-        public EFDbContext(DbContextOptions<EFDbContext> options):base(options)
+        public EFDbContext(DbContextOptions<EFDbContext> options) : base(options)
         {
         }
 
         public DbSet<AccountItermDetails> AccountItermDetails { get; set; }
+
+        public DbSet<ExcelBackupInfor> ExcelBackupInfor { get; set; }
     }
 }

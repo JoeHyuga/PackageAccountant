@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Web.Domain.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using DAL;
 
 namespace Web
 {
@@ -37,7 +37,7 @@ namespace Web
             });
 
             var connection = Configuration.GetConnectionString("PackageDatabase");
-            services.AddDbContext<EFDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<EFPackageDbContext>(options => options.UseSqlServer(connection));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }

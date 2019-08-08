@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Domain\AccountItermDetails.cs" />
+    <Compile Remove="Common\**" />
+    <Compile Remove="Domain\**" />
+    <EmbeddedResource Remove="Common\**" />
+    <EmbeddedResource Remove="Domain\**" />
+    <None Remove="Common\**" />
+    <None Remove="Domain\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>
 
 </Project>
