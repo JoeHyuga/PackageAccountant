@@ -10,6 +10,7 @@ namespace DAL
         private EFPackageDbContext _context = null;
         private ExcelBackupInforRepository excelBackupInforRepository = null;
         private AccountItermDetailsRepository accountItermDetailsRepository = null;
+        private AccountTypeDetailsRepository accountTypeDetailsRepository = null;
 
         public UnitOfWork(EFPackageDbContext context)
         {
@@ -24,6 +25,11 @@ namespace DAL
         public AccountItermDetailsRepository AccountItermDetailsRepository
         {
             get { return accountItermDetailsRepository == null ? (accountItermDetailsRepository = new AccountItermDetailsRepository(_context)) : accountItermDetailsRepository; }
+        }
+
+        public AccountTypeDetailsRepository AccountTypeDetailsRepository
+        {
+            get { return accountTypeDetailsRepository == null ? (accountTypeDetailsRepository = new AccountTypeDetailsRepository(_context)) : accountTypeDetailsRepository; }
         }
 
         public void saveChange()

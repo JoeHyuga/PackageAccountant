@@ -75,16 +75,16 @@ namespace Web.Controllers
                 string fileExt = arry[arry.Length-1]; //文件扩展名，不含“.”
                 fileSize = formFile.Length; //获得文件大小，以字节为单位
                 newFileName = System.Guid.NewGuid().ToString() + "." + fileExt; //随机生成新的文件名
-                var filePath = webRootPath.Split("\\")[0] + "\\upload\\" + newFileName;
+                var filePath = AppSetting.excelPath + newFileName;
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await formFile.CopyToAsync(stream);
                 }
                 //add the backup information
                 new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now.Date,size= fileSize.ToString(),backuppath=filePath});
-                var data= new OfficeHelper().ReadExcelToDataTable(filePath);
+                //var data= new OfficeHelper().ReadExcelToDataTable(filePath);
                 //insert account iterm data
-                new AccountItermDetailsBll(_context).Insert(data);
+                //new AccountItermDetailsBll(_context).Insert(data);
             }
             return Ok(new {
                 name=newFileName,
