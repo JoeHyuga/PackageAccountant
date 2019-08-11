@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using DAL;
+using Common;
 
 namespace Web
 {
@@ -28,8 +29,8 @@ namespace Web
         {
             services.AddMvc();
 
-            services.AddCors(options=> {
-                options.AddPolicy("any",builder=> {
+            services.AddCors(options => {
+                options.AddPolicy("any", builder => {
                     builder.AllowAnyOrigin().//允许任何来源的主机访问
                     AllowAnyMethod().
                     AllowAnyHeader().AllowCredentials();//指定处理cookie
@@ -40,6 +41,8 @@ namespace Web
             services.AddDbContext<EFPackageDbContext>(options => options.UseSqlServer(connection));
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            UserDefineConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,13 +54,20 @@ namespace Web
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvc(route=> 
+            app.UseMvc(route =>
             {
                 route.MapRoute(
                         name: "default",
                         template: "{controller=values}/{action=Index}/{id?}"
                     );
             });
+        }
+
+        public void UserDefineConfiguration()
+        {
+            var con = new ConfigurationBuilder().AddJsonFile("config.json");
+            var config = con.Build();
+            AppSetting.excelPath = config["excelPath"].ToString();
         }
     }
 }

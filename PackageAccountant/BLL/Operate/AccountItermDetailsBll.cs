@@ -8,24 +8,18 @@ using System.Linq;
 
 namespace BLL.Operate
 {
-    public class AccountItermDetailsBll
+    public class AccountItermDetailsBll:BaseBll
     {
-        private EFPackageDbContext _context = null;
-        public AccountItermDetailsBll(EFPackageDbContext context)
-        {
-            _context = context;
-        }
+        public AccountItermDetailsBll(EFPackageDbContext context) : base(context) { }
 
         public List<AccountItermDetails> AccountItermDetailsList()
         {
-            var unit = new UnitOfWork(_context);
             var list= unit.AccountItermDetailsRepository.GetAllList();
             return list.ToList();
         }
 
         public void Insert(DataTable data)
         {
-            var unit = new UnitOfWork(_context);
             var list = AccountItermDetailsList();
             for (int i = 0; i < data.Rows.Count; i++)
             {

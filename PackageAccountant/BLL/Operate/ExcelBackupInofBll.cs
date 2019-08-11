@@ -6,16 +6,11 @@ using System.Text;
 
 namespace BLL.Operate
 {
-    public class ExcelBackupInofBll
+    public class ExcelBackupInofBll:BaseBll
     {
-        private EFPackageDbContext _context=null;
-        public ExcelBackupInofBll(EFPackageDbContext context)
-        {
-            _context = context;
-        }
+        public ExcelBackupInofBll(EFPackageDbContext context) : base(context) { }
         public void Insert(ExcelBackupInfor entity)
         {
-            var unit =new UnitOfWork(_context);
             unit.ExcelBackupInforRepository.Insert(entity);
             unit.saveChange();
         }
