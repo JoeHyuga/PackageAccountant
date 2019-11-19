@@ -16,7 +16,7 @@ namespace Common
         /// <param name="sheetName">指定读取excel工作薄sheet的名称</param>
         /// <param name="isFirstRowColumn">第一行是否是DataTable的列名：true=是，false=否</param>
         /// <returns>DataTable数据表</returns>
-        public DataTable ReadExcelToDataTable(string fileName, string sheetName = null, bool isFirstRowColumn = true)
+        public DataTable ReadExcelToDataTable(string fileName,string sheetName = null, bool isFirstRowColumn = true)
         {
             //定义要返回的datatable对象
             var data = new DataTable();
@@ -31,7 +31,7 @@ namespace Common
                     return null;
                 }
                 //根据指定路径读取文件
-                FileStream fs = new FileStream(fileName,FileMode.Open,FileAccess.Read);
+                FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 //根据文件流创建excel数据结构
                 IWorkbook workbook = WorkbookFactory.Create(fs);
                 //如果有指定工作表名称
@@ -50,7 +50,7 @@ namespace Common
                 }
                 if (sheet != null)
                 {
-                    IRow firstRow= sheet.GetRow(0);
+                    IRow firstRow = sheet.GetRow(0);
                     //一行最后一个cell的编号 即总的列数
                     int cellCount = firstRow.LastCellNum;
                     //如果第一行是标题列名

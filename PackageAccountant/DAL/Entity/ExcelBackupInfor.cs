@@ -7,6 +7,7 @@ namespace DAL.Entity
 {
     public class ExcelBackupInfor
     {
+        public string UserId { get; set; }
         public DateTime backupdate { get; set; }
         public string backuppath { get; set; }
         public string size { get; set; }

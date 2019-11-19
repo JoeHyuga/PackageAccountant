@@ -26,4 +26,16 @@ app.controller("UplaodController", function ($scope, $http) {
         //        console.log(data);
         //    });
     }
+
+    $scope.GetUserId = function () {
+        $http({
+            method: 'GET',
+            url: '/api/Login/Login',
+            params: { userid: $scope.userid }
+        }).then(function success(response) {
+            console.log(response);
+        }, function errorCallback(response) {
+            console.log(response)
+        });
+    }
 })

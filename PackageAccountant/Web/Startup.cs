@@ -28,7 +28,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            services.AddSession();
             services.AddCors(options => {
                 options.AddPolicy("any", builder => {
                     builder.AllowAnyOrigin().//允许任何来源的主机访问
@@ -54,6 +54,7 @@ namespace Web
             }
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(route =>
             {
                 route.MapRoute(

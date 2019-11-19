@@ -81,10 +81,10 @@ namespace Web.Controllers
                     await formFile.CopyToAsync(stream);
                 }
                 //add the backup information
-                new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now.Date,size= fileSize.ToString(),backuppath=filePath});
-                //var data= new OfficeHelper().ReadExcelToDataTable(filePath);
+                new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now,size= fileSize.ToString(),backuppath=filePath});
+                var data = new OfficeHelper().ReadExcelToDataTable(filePath);
                 //insert account iterm data
-                //new AccountItermDetailsBll(_context).Insert(data);
+                new AccountItermDetailsBll(_context).Insert(data, HttpContext.Session.GetString("userid"));
             }
             return Ok(new {
                 name=newFileName,
