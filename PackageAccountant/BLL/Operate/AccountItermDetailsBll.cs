@@ -38,7 +38,6 @@ namespace BLL.Operate
                     };
                     unit.AccountItermDetailsRepository.Insert(accountIterm);
                 }
-
             }
             unit.saveChange();
         }
