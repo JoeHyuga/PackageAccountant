@@ -31,7 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\app.js" />
+    <None Include="wwwroot\app.js">
+      <DependentUpon>app.html</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
