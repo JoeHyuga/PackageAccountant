@@ -1,6 +1,4 @@
-﻿var app = angular.module('PackageApp', ['ngRoute']);
-
-app.controller("UplaodController", function ($scope, $http) {
+﻿app.controller("UplaodController", function ($scope, $http) {
     $scope.Upload = function () {
         var form = new FormData();
         var file = $("#file")[0].files[0];
@@ -25,17 +23,5 @@ app.controller("UplaodController", function ($scope, $http) {
         //    }, function (data) {
         //        console.log(data);
         //    });
-    }
-
-    $scope.GetUserId = function () {
-        $http({
-            method: 'GET',
-            url: '/api/Login/Login',
-            params: { userid: $scope.userid }
-        }).then(function success(response) {
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log(response)
-        });
     }
 })

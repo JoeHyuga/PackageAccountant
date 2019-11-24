@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <None Remove="wwwroot\index.html" />
+    <None Remove="wwwroot\index.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\app.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\DAL\DAL.csproj" />
@@ -41,6 +46,9 @@
     </None>
     <None Update="wwwroot\defualt.js">
       <DependentUpon>default.html</DependentUpon>
+    </None>
+    <None Update="wwwroot\login.js">
+      <DependentUpon>login.html</DependentUpon>
     </None>
   </ItemGroup>
 
