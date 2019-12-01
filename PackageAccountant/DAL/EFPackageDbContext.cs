@@ -11,5 +11,7 @@ namespace DAL
         public DbSet<AccountItermDetails> AccountItermDetails { get; set; }
 
         public DbSet<ExcelBackupInfor> ExcelBackupInfor { get; set; }
+
+        public DbSet<UserInfo> UserInfo { get; set; }
     }
 }

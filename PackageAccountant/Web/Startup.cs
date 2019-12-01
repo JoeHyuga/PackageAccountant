@@ -28,7 +28,11 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSession();
+            services.AddSession(
+                options => {
+                    options.IdleTimeout = TimeSpan.FromMinutes(30);
+                }
+                );
             services.AddCors(options => {
                 options.AddPolicy("any", builder => {
                     builder.AllowAnyOrigin().//允许任何来源的主机访问

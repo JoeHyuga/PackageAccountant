@@ -15,6 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\BaseController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="wwwroot\index.html" />
     <None Remove="wwwroot\index.js" />
   </ItemGroup>

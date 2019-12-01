@@ -13,15 +13,5 @@
             }).catch(function (data) {
                 console.log(data);
             });
-        //$.post('/api/values/UploadFiles',
-        //    {
-        //        data: form,
-        //        transformRequest: angular.identity,
-        //        headers: {
-        //            'Content-Type': undefined
-        //        }
-        //    }, function (data) {
-        //        console.log(data);
-        //    });
     }
 })
