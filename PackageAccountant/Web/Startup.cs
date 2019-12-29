@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using DAL;
 using Common;
+using BLL.IOperate;
+using BLL.Operate;
+using Common.ICommon;
 
 namespace Web
 {
@@ -43,8 +46,14 @@ namespace Web
 
             var connection = Configuration.GetConnectionString("PackageDatabase");
             services.AddDbContext<EFPackageDbContext>(options => options.UseSqlServer(connection));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();//每次请求会获取同一个实例，即：在应用程序生命周期内，每次都会获得同一个实例
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            #region 依赖注入
+            services.AddTransient<IUserInfoBll, UserInfoBll>();
+            services.AddTransient<IExcelBackupInofBll, ExcelBackupInofBll>();//每次请求会获取一个新实例
+            services.AddTransient<IOfficeHelper, OfficeHelper>();
+            services.AddTransient<IAccountItermDetailsBll, AccountItermDetailsBll>();
+            #endregion
 
             UserDefineConfiguration();
         }

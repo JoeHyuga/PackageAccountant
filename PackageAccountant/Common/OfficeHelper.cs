@@ -1,4 +1,5 @@
-﻿using NPOI.SS.UserModel;
+﻿using Common.ICommon;
+using NPOI.SS.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Common
 {
-    public class OfficeHelper
+    public class OfficeHelper:IOfficeHelper
     {
         /// <summary>
         /// 将excel文件内容读取到DataTable数据表中

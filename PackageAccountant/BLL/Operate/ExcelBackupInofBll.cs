@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BLL.IOperate;
+using DAL;
 using DAL.Entity;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace BLL.Operate
 {
-    public class ExcelBackupInofBll:BaseBll
+    public class ExcelBackupInofBll:BaseBll, IExcelBackupInofBll
     {
         public ExcelBackupInofBll(EFPackageDbContext context) : base(context) { }
         public void Insert(ExcelBackupInfor entity)

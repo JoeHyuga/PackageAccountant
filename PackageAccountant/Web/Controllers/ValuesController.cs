@@ -10,21 +10,29 @@ using Microsoft.AspNetCore.Http;
 using BLL.Operate;
 using DAL;
 using Common;
+using BLL.IOperate;
+using Common.ICommon;
 
 namespace Web.Controllers
 {
     [Produces("application/json")]
     [Consumes("application/json", "multipart/form-data")]//此处为新增
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController : BaseController
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly EFPackageDbContext _context;
+        private IExcelBackupInofBll _iexcelBackupInofBll;
+        private IOfficeHelper _iofficeHelper;
+        private IAccountItermDetailsBll _iaccountItermDetailsBll;
 
-        public ValuesController(IHostingEnvironment hostingEnvironment, EFPackageDbContext context)
+        public ValuesController(IHostingEnvironment hostingEnvironment, EFPackageDbContext context, IExcelBackupInofBll iexcelBackupInofBll,IOfficeHelper iofficeHelper, IAccountItermDetailsBll iaccountItermDetailsBll)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _iexcelBackupInofBll = iexcelBackupInofBll;
+            _iofficeHelper = iofficeHelper;
+            _iaccountItermDetailsBll = iaccountItermDetailsBll;
         }
         #region example
         // GET api/values
@@ -81,10 +89,10 @@ namespace Web.Controllers
                     await formFile.CopyToAsync(stream);
                 }
                 //add the backup information
-                new ExcelBackupInofBll(_context).Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now,size= fileSize.ToString(),backuppath=filePath});
-                var data = new OfficeHelper().ReadExcelToDataTable(filePath);
+                _iexcelBackupInofBll.Insert(new DAL.Entity.ExcelBackupInfor() { backupdate=DateTime.Now,size= fileSize.ToString(),backuppath=filePath});
+                var data = _iofficeHelper.ReadExcelToDataTable(filePath);
                 //insert account iterm data
-                new AccountItermDetailsBll(_context).Insert(data, HttpContext.Session.GetString("userid"));
+                _iaccountItermDetailsBll.Insert(data, HttpContext.Session.GetString("username"));
             }
             return Ok(new {
                 name=newFileName,

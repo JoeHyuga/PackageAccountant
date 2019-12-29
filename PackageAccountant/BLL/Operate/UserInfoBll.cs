@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BLL.IOperate;
+using DAL;
 using DAL.Entity;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace BLL.Operate
 {
-    public class UserInfoBll:BaseBll
+    public class UserInfoBll:BaseBll, IUserInfoBll
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private ISession _session => _httpContextAccessor.HttpContext.Session;
