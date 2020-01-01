@@ -5,12 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="HttpGlobalExceptionFilter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="config.json" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="3.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.mvc.abstractions\2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

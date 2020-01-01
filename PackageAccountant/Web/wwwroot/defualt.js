@@ -9,7 +9,9 @@
                 'Content-Type': undefined
             }
         }).then(function (data) {
-            alert("true");
+            if (data.data.count == -1) {
+                alert("出现异常请查看日志");
+            }
             }).catch(function (data) {
                 console.log(data);
             });

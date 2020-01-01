@@ -15,14 +15,24 @@ using Common;
 using BLL.IOperate;
 using BLL.Operate;
 using Common.ICommon;
+using log4net.Repository;
+using log4net;
+using log4net.Config;
+using System.IO;
 
 namespace Web
 {
     public class Startup
     {
+        public static ILoggerRepository repository { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            //load log4net configuration information
+            repository = LogManager.CreateRepository("NETCoreRepository");
+            XmlConfigurator.Configure(repository,new FileInfo("log4net.config"));
         }
 
         public IConfiguration Configuration { get; }
@@ -43,7 +53,10 @@ namespace Web
                     AllowAnyHeader().AllowCredentials();//指定处理cookie
                 });
             });
-
+            services.AddMvc(option=> 
+            {
+                option.Filters.Add<Web.Common.log4net.HttpGlobalExceptionFilter>();
+            });
             var connection = Configuration.GetConnectionString("PackageDatabase");
             services.AddDbContext<EFPackageDbContext>(options => options.UseSqlServer(connection));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();//每次请求会获取同一个实例，即：在应用程序生命周期内，每次都会获得同一个实例
@@ -59,8 +72,9 @@ namespace Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddLog4Net();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
