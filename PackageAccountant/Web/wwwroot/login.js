@@ -13,6 +13,7 @@ app.controller('LoginController', function ($scope, $http) {
                 alert("用户信息不存在")
             }
         }, function errorCallback(response) {
+            alert("出现异常请查看日志");
             console.log(response)
         });
     }

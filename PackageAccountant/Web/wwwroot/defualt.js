@@ -9,11 +9,11 @@
                 'Content-Type': undefined
             }
         }).then(function (data) {
-            if (data.data.count == -1) {
-                alert("出现异常请查看日志");
-            }
+
             }).catch(function (data) {
+                alert("出现异常请查看日志");
                 console.log(data);
+               
             });
     }
 })

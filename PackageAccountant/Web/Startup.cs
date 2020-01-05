@@ -32,7 +32,7 @@ namespace Web
 
             //load log4net configuration information
             repository = LogManager.CreateRepository("NETCoreRepository");
-            XmlConfigurator.Configure(repository,new FileInfo("log4net.config"));
+            XmlConfigurator.Configure(repository, new FileInfo("log4net.config"));
         }
 
         public IConfiguration Configuration { get; }
@@ -42,18 +42,21 @@ namespace Web
         {
             services.AddMvc();
             services.AddSession(
-                options => {
+                options =>
+                {
                     options.IdleTimeout = TimeSpan.FromMinutes(30);
                 }
                 );
-            services.AddCors(options => {
-                options.AddPolicy("any", builder => {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder =>
+                {
                     builder.AllowAnyOrigin().//允许任何来源的主机访问
                     AllowAnyMethod().
                     AllowAnyHeader().AllowCredentials();//指定处理cookie
                 });
             });
-            services.AddMvc(option=> 
+            services.AddMvc(option =>
             {
                 option.Filters.Add<Web.Common.log4net.HttpGlobalExceptionFilter>();
             });
@@ -72,13 +75,10 @@ namespace Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddLog4Net();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            //app.UseDeveloperExceptionPage();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSession();

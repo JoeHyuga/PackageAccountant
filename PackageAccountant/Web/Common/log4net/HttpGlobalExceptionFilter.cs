@@ -16,7 +16,6 @@ namespace Web.Common.log4net
             log.Error("context：" + context);
             log.Error("context.Exception.Message：" + context.Exception.Message??"");
             log.Error("context.Exception.InnerException.Message：" + context.Exception.InnerException.Message??"");
-            
         }
     }
 }
