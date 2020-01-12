@@ -95,7 +95,7 @@ namespace Web.Controllers
                 _iexcelBackupInofBll.Insert(new DAL.Entity.ExcelBackupInfor() { backupdate = DateTime.Now, size = fileSize.ToString(), backuppath = filePath });
                 var data = _iofficeHelper.ReadExcelToDataTable(filePath);
                 //insert account iterm data
-                _iaccountItermDetailsBll.Insert(data, HttpContext.Session.GetString("username1"));
+                _iaccountItermDetailsBll.Insert(data, HttpContext.Session.GetString("username"));
             }
 
             return Ok(new
