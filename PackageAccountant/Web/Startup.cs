@@ -89,6 +89,7 @@ namespace Web
                         template: "{controller=values}/{action=Index}/{id?}"
                     );
             });
+
         }
 
         public void UserDefineConfiguration()
