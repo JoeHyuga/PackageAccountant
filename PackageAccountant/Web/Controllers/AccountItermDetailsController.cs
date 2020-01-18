@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Cors;
 namespace Web.Controllers
 {
     [Route("api/[controller]")]
-    public class AccountItermDetailsController : Controller
+    public class AccountItermDetailsController : BaseController
     {
         //private readonly EFDbContext _eFDbContext;
         //public AccountItermDetailsController(EFDbContext eFDbContext)

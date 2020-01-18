@@ -11,6 +11,8 @@ namespace DAL
         private ExcelBackupInforRepository excelBackupInforRepository = null;
         private AccountItermDetailsRepository accountItermDetailsRepository = null;
         private AccountTypeDetailsRepository accountTypeDetailsRepository = null;
+        private UserInfoRepository userInfoRepository = null;
+        private MenuRepository menuRepository = null;
 
         public UnitOfWork(EFPackageDbContext context)
         {
@@ -30,6 +32,16 @@ namespace DAL
         public AccountTypeDetailsRepository AccountTypeDetailsRepository
         {
             get { return accountTypeDetailsRepository == null ? (accountTypeDetailsRepository = new AccountTypeDetailsRepository(_context)) : accountTypeDetailsRepository; }
+        }
+
+        public UserInfoRepository UserInfoRepository
+        {
+            get { return userInfoRepository == null ? (userInfoRepository = new UserInfoRepository(_context)) : userInfoRepository; }
+        }
+
+        public MenuRepository MenuRepository
+        {
+            get { return menuRepository == null ? (menuRepository = new MenuRepository(_context)) : menuRepository; }
         }
 
         public void saveChange()

@@ -15,6 +15,5 @@ namespace BLL.Operate
             unit = new UnitOfWork(_context);
         }
 
-
     }
 }

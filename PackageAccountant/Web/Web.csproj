@@ -6,27 +6,36 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Common\**" />
     <Compile Remove="Domain\**" />
-    <EmbeddedResource Remove="Common\**" />
     <EmbeddedResource Remove="Domain\**" />
-    <None Remove="Common\**" />
     <None Remove="Domain\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="wwwroot\index.html" />
+    <None Remove="wwwroot\index.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="Autofac.Mvc5" Version="4.0.2" />
+    <PackageReference Include="Autofac.WebApi2" Version="4.3.1" />
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.1" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="3.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\app.js">
+      <DependentUpon>app.html</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,8 +48,14 @@
     <None Update="config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="wwwroot\defualt.js">
       <DependentUpon>default.html</DependentUpon>
+    </None>
+    <None Update="wwwroot\login.js">
+      <DependentUpon>login.html</DependentUpon>
     </None>
   </ItemGroup>
 

@@ -1,6 +1,5 @@
-﻿var app = angular.module('PackageApp', ['ngRoute']);
-
-app.controller("UplaodController", function ($scope, $http) {
+﻿app.controller("UplaodController", function ($scope, $http) {
+    $scope.$emit('page', "上传数据项"); 
     $scope.Upload = function () {
         var form = new FormData();
         var file = $("#file")[0].files[0];
@@ -11,31 +10,13 @@ app.controller("UplaodController", function ($scope, $http) {
                 'Content-Type': undefined
             }
         }).then(function (data) {
-            alert("true");
+            if (data.data.count > 0) {
+                alert("上传成功");
+            }
             }).catch(function (data) {
+                alert("出现异常请查看日志");
                 console.log(data);
+               
             });
-        //$.post('/api/values/UploadFiles',
-        //    {
-        //        data: form,
-        //        transformRequest: angular.identity,
-        //        headers: {
-        //            'Content-Type': undefined
-        //        }
-        //    }, function (data) {
-        //        console.log(data);
-        //    });
-    }
-
-    $scope.GetUserId = function () {
-        $http({
-            method: 'GET',
-            url: '/api/Login/Login',
-            params: { userid: $scope.userid }
-        }).then(function success(response) {
-            console.log(response);
-        }, function errorCallback(response) {
-            console.log(response)
-        });
     }
 })
