@@ -69,6 +69,7 @@ namespace Web
             services.AddTransient<IExcelBackupInofBll, ExcelBackupInofBll>();//每次请求会获取一个新实例
             services.AddTransient<IOfficeHelper, OfficeHelper>();
             services.AddTransient<IAccountItermDetailsBll, AccountItermDetailsBll>();
+            services.AddTransient<IMenuBll, MenuBll>();
             #endregion
 
             UserDefineConfiguration();

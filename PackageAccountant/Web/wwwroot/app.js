@@ -25,5 +25,14 @@ app.controller("AppController", function ($scope, $http) {
     $scope.$on('page', function (event, data) {
         $scope.page = data;
     });
+
+    $scope.GetMenuList = function () {
+        $http.get("/api/App/GetMenuList").then(
+            function (data) {
+                $scope.menulist = data.data.list;
+        })
+    }
+
+    $scope.GetMenuList();
 })
  
