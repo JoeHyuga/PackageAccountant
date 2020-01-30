@@ -1,9 +1,29 @@
 ﻿app.controller("UplaodController", function ($scope, $http) {
-    $scope.$emit('page', "上传数据项"); 
+    $scope.$emit('page', "上传数据项");
+    $scope.step = 1
+    $scope.Step1 = function () {
+        var file = $("#file")[0].files[0];
+        if (file == undefined) {
+            alert('请先上传文件')
+        } else {
+            $scope.step = 2
+        }
+    }
+    $scope.AppendData = function () {
+        $scope.hit = "tips：按时间附加到已有数据中"
+        $scope.rhit = "append"
+    }
+
+    $scope.CleanData = function () {
+        $scope.hit = "tips：清除原有数据再导入"
+        $scope.rhit = "clean"
+    }
+
     $scope.Upload = function () {
         var form = new FormData();
         var file = $("#file")[0].files[0];
         form.append("fileName", file);
+        form.append("rhit", $scope.rhit);
         $http.post("/api/values/UploadFiles", form, {
             transformRequest: angular.identity,
             headers: {
