@@ -9,6 +9,11 @@
             $scope.step = 2
         }
     }
+
+    $scope.Step2 = function () {
+            $scope.step = 1
+    }
+
     $scope.AppendData = function () {
         $scope.hit = "tips：按时间附加到已有数据中"
         $scope.rhit = "append"
@@ -20,6 +25,10 @@
     }
 
     $scope.Upload = function () {
+        if ($scope.rhit == undefined || $scope.rhit == "") {
+            $scope.hit = "tips：请选选项！！！"
+            return;
+        }
         var form = new FormData();
         var file = $("#file")[0].files[0];
         form.append("fileName", file);

@@ -46,7 +46,7 @@ namespace DAL.Repository
 
         public void ExecStroedProcedure(string sql)
         {
-           // _dbSet.FromSqlRaw(sql);
+            _dbSet.FromSql(sql);
         }
     }
 }

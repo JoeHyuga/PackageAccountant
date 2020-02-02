@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CommonHelper.cs" />
     <Compile Remove="HttpGlobalExceptionFilter.cs" />
   </ItemGroup>
 
