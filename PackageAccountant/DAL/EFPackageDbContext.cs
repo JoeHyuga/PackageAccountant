@@ -17,5 +17,7 @@ namespace DAL
         public DbSet<Menu> Menu { get; set; }
 
         public DbSet<IncomeExpenseDetails> IncomeExpenseDetails { get; set; }
+
+        public DbSet<AccountTypeDetails> AccountTypeDetails { get; set; }
     }
 }

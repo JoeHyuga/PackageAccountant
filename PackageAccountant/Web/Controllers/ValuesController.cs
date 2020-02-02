@@ -27,15 +27,25 @@ namespace Web.Controllers
         private IExcelBackupInofBll _iexcelBackupInofBll;
         private IOfficeHelper _iofficeHelper;
         private IAccountItermDetailsBll _iaccountItermDetailsBll;
+        private IIncomeExpenseDetailsBll _iincomeExpenseDetailsBll;
+        private IAccountTypeDetailsBll _iaccountTypeDetailsBll;
         private ILog log = LogManager.GetLogger(Startup.repository.Name, typeof(HttpGlobalExceptionFilter));
 
-        public ValuesController(IHostingEnvironment hostingEnvironment, EFPackageDbContext context, IExcelBackupInofBll iexcelBackupInofBll, IOfficeHelper iofficeHelper, IAccountItermDetailsBll iaccountItermDetailsBll)
+        public ValuesController(IHostingEnvironment hostingEnvironment, 
+            EFPackageDbContext context, 
+            IExcelBackupInofBll iexcelBackupInofBll,
+            IOfficeHelper iofficeHelper, 
+            IAccountItermDetailsBll iaccountItermDetailsBll,
+            IAccountTypeDetailsBll iaccountTypeDetailsBll,
+            IIncomeExpenseDetailsBll iincomeExpenseDetailsBll)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _iexcelBackupInofBll = iexcelBackupInofBll;
             _iofficeHelper = iofficeHelper;
             _iaccountItermDetailsBll = iaccountItermDetailsBll;
+            _iaccountTypeDetailsBll = iaccountTypeDetailsBll;
+            _iincomeExpenseDetailsBll = iincomeExpenseDetailsBll;
         }
         #region example
         // GET api/values
@@ -94,8 +104,12 @@ namespace Web.Controllers
                 //add the backup information
                 _iexcelBackupInofBll.Insert(new DAL.Entity.ExcelBackupInfor() { backupdate = DateTime.Now, size = fileSize.ToString(), backuppath = filePath });
                 var data = _iofficeHelper.ReadExcelToDataTable(filePath);
+                var userid = HttpContext.Session.GetString("username");
                 //insert account iterm data
-                _iaccountItermDetailsBll.Insert(data, HttpContext.Session.GetString("username"));
+                _iaccountItermDetailsBll.Insert(data, userid);
+                _iaccountTypeDetailsBll.Insert(data, userid);
+                _iincomeExpenseDetailsBll.Insert(data, userid,"");
+
             }
 
             return Ok(new

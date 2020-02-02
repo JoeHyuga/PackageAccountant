@@ -71,6 +71,7 @@ namespace Web
             services.AddTransient<IAccountItermDetailsBll, AccountItermDetailsBll>();
             services.AddTransient<IMenuBll, MenuBll>();
             services.AddTransient<IIncomeExpenseDetailsBll, IncomeExpenseDetailsBll>();
+            services.AddTransient<IAccountTypeDetailsBll, AccountTypeDetailsBll>();
             #endregion
 
             UserDefineConfiguration();

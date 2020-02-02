@@ -9,9 +9,9 @@ namespace DAL.Entity
     {
         public DateTime PTime { get; set; }
         public string PType { get; set; }
-        public string AccountItermId { get; set; }
+        public int AccountItermId { get; set; }
         public decimal Amount { get; set; }
-        public string AccountTypeId { get; set; }
+        public int AccountTypeId { get; set; }
         public string Comments { get; set; }
         [Key]
         public int Id { get; set; }

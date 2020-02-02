@@ -44,9 +44,9 @@ namespace DAL.Repository
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public void ExeSp(string sql)
+        public void ExecStroedProcedure(string sql)
         {
-            
+           // _dbSet.FromSqlRaw(sql);
         }
     }
 }
