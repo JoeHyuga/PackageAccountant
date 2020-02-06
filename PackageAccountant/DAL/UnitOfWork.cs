@@ -13,6 +13,7 @@ namespace DAL
         private AccountTypeDetailsRepository accountTypeDetailsRepository = null;
         private UserInfoRepository userInfoRepository = null;
         private MenuRepository menuRepository = null;
+        private IncomeExpenseDetailsRepository incomeExpenseDetailsRepository = null;
 
         public UnitOfWork(EFPackageDbContext context)
         {
@@ -42,6 +43,11 @@ namespace DAL
         public MenuRepository MenuRepository
         {
             get { return menuRepository == null ? (menuRepository = new MenuRepository(_context)) : menuRepository; }
+        }
+
+        public IncomeExpenseDetailsRepository IncomeExpenseDetailsRepository
+        {
+            get { return incomeExpenseDetailsRepository == null ? (incomeExpenseDetailsRepository = new IncomeExpenseDetailsRepository(_context)) : incomeExpenseDetailsRepository; }
         }
 
         public void saveChange()

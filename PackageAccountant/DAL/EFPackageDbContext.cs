@@ -15,5 +15,9 @@ namespace DAL
         public DbSet<UserInfo> UserInfo { get; set; }
 
         public DbSet<Menu> Menu { get; set; }
+
+        public DbSet<IncomeExpenseDetails> IncomeExpenseDetails { get; set; }
+
+        public DbSet<AccountTypeDetails> AccountTypeDetails { get; set; }
     }
 }

@@ -54,6 +54,9 @@
     <None Update="wwwroot\defualt.js">
       <DependentUpon>default.html</DependentUpon>
     </None>
+    <None Update="wwwroot\inexshow.js">
+      <DependentUpon>inexshow.html</DependentUpon>
+    </None>
     <None Update="wwwroot\login.js">
       <DependentUpon>login.html</DependentUpon>
     </None>
