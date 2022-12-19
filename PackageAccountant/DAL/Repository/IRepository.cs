@@ -13,5 +13,6 @@ namespace DAL.Repository
         void Insert(T entity);
         void Delete(T entity);
         void Update(T entity);
+        IQueryable<T> ExecSql(string sql);
     }
 }

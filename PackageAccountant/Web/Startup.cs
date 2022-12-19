@@ -80,6 +80,9 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            //配置Cors
+            app.UseCors("any");
+
             loggerFactory.AddLog4Net();
             //app.UseDeveloperExceptionPage();
             app.UseDefaultFiles();

@@ -48,5 +48,10 @@ namespace DAL.Repository
         {
             _dbSet.FromSql(sql);
         }
+
+        public IQueryable<T> ExecSql(string sql)
+        {
+            return _dbSet.FromSql(sql);
+        }
     }
 }

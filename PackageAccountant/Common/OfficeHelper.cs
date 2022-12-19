@@ -96,6 +96,7 @@ namespace Common
             }
             catch (Exception ex)
             {
+                var e = ex;
                 return null;
             }
         }

@@ -14,6 +14,7 @@ using BLL.IOperate;
 using Common.ICommon;
 using log4net;
 using Web.Common.log4net;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web.Controllers
 {
@@ -31,10 +32,10 @@ namespace Web.Controllers
         private IAccountTypeDetailsBll _iaccountTypeDetailsBll;
         private ILog log = LogManager.GetLogger(Startup.repository.Name, typeof(HttpGlobalExceptionFilter));
 
-        public ValuesController(IHostingEnvironment hostingEnvironment, 
-            EFPackageDbContext context, 
+        public ValuesController(IHostingEnvironment hostingEnvironment,
+            EFPackageDbContext context,
             IExcelBackupInofBll iexcelBackupInofBll,
-            IOfficeHelper iofficeHelper, 
+            IOfficeHelper iofficeHelper,
             IAccountItermDetailsBll iaccountItermDetailsBll,
             IAccountTypeDetailsBll iaccountTypeDetailsBll,
             IIncomeExpenseDetailsBll iincomeExpenseDetailsBll)
@@ -48,12 +49,13 @@ namespace Web.Controllers
             _iincomeExpenseDetailsBll = iincomeExpenseDetailsBll;
         }
         #region example
-        // GET api/values
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "ddddd", "value2" };
-        //}
+        //GET api/values
+        [HttpGet]
+        [EnableCors("any")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "ddddd", "value2" };
+        }
 
         //// GET api/values/5
         //[HttpGet("{id}")]
@@ -82,7 +84,7 @@ namespace Web.Controllers
         #endregion
 
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> UploadFiles([FromForm]IFormCollection formData)
+        public async Task<IActionResult> UploadFiles([FromForm] IFormCollection formData)
         {
             string newFileName = ""; long fileSize = 0;
             IFormFileCollection files = formData.Files;//等价于Request.Form.Files
@@ -108,7 +110,7 @@ namespace Web.Controllers
                 //insert account iterm data
                 _iaccountItermDetailsBll.Insert(data, userid);
                 _iaccountTypeDetailsBll.Insert(data, userid);
-                _iincomeExpenseDetailsBll.Insert(data, userid,"");
+                _iincomeExpenseDetailsBll.Insert(data, userid, "");
 
             }
 

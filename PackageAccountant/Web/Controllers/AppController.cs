@@ -7,6 +7,7 @@ using DAL.Entity;
 using Common;
 using DAL;
 using BLL.IOperate;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +26,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("GetMenuList")]
+        [EnableCors("any")]
         public AppResult<Menu> GetMenuList()
         {
             var result = new AppResult<Menu>();

@@ -37,7 +37,7 @@ namespace BLL.Operate
                         var accountIterm = new AccountItermDetails()
                         {
                             AccountIterm = toData.Rows[i][0].ToString(),
-                            UserId = userid
+                            UserId = userid ?? "Tong"
                         };
                         unit.AccountItermDetailsRepository.Insert(accountIterm);
                     }
