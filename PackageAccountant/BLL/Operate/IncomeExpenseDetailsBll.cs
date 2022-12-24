@@ -84,7 +84,7 @@ namespace BLL.Operate
             foreach (var I in incomeExpenseResult)
             {
                 label.Add(I.AccountIterm);
-                data.Add(I.Amount);
+                data.Add(Math.Abs(I.Amount));
             }
 
             result.Add(new PieResult
@@ -94,6 +94,64 @@ namespace BLL.Operate
                 data = data
             });
             return result;
+        }
+
+        public List<LineResult> GetAccountTypeIncomeExpenseLine(int accountTypeId, DateTime pStartTime, DateTime pEndTime, string pType)
+        {
+            List<LineResult> result = new List<LineResult>();
+            List<string> labels = new List<string>();
+            List<decimal> data = new List<decimal>();
+            var background = new List<string>();
+            string label = "";
+            var dates = GetTimeSpan(pStartTime, pEndTime);
+            for (int i = 0; i < dates.Count; i++)
+            {
+                var incomeExpenseResult = SumTypeAmount2(accountTypeId, dates[i][0], dates[i][1], pType);
+                if (incomeExpenseResult.Count == 0)
+                {
+                    labels.Add(dates[i][0].ToString("yyyy-MM-dd") + "至" + dates[i][1].ToString("yyyy-MM-dd"));
+                    data.Add(0);
+                    label = "";
+                }
+
+                foreach (var I in incomeExpenseResult)
+                {
+                    labels.Add(dates[i][0].ToString("yyyy-MM-dd") + "至" + dates[i][1].ToString("yyyy-MM-dd"));
+                    data.Add(Math.Abs(I.Amount));
+                    label = I.AccountType;
+                }
+            }
+            background = new ChartHelp().GetRandomColor(dates.Count);
+            result.Add(new LineResult
+            {
+                backgroundColor = background,
+                labels = labels,
+                data = data,
+                label = label
+            });
+            return result;
+        }
+
+        public List<IncomeExpenseResult> GetAccountSumTypeAmount(int accountTypeId, DateTime pStartTime, DateTime pEndTime, string pType)
+        {
+            var incomeExpenseResult = SumTypeAmount(accountTypeId, pStartTime, pEndTime, pType);
+            var total = incomeExpenseResult.Sum(p => p.Amount);
+
+            var result = (from a in incomeExpenseResult
+                          select new IncomeExpenseResult
+                          {
+                              AccountItermId = a.AccountItermId,
+                              Amount = Math.Abs(a.Amount),
+                              AccountTypeId = a.AccountTypeId,
+                              AccountIterm = a.AccountIterm,
+                              PTime = a.PTime,
+                              PType = a.PType,
+                              AccountType = a.AccountType,
+                              StrPercentage = Math.Round((a.Amount / total * 100), 2).ToString() + "%",
+                              Percentage = Math.Round((a.Amount / total * 100), 2)
+                          }).ToList();
+
+            return result.OrderByDescending(p => p.Percentage).ToList();
         }
 
         public List<IncomeExpenseResult> SumTypeAmount(int accountTypeId, DateTime pStartTime, DateTime pEndTime, string pType)
@@ -136,26 +194,94 @@ namespace BLL.Operate
             return incomeExpenseResult;
         }
 
-        public List<IncomeExpenseResult> GetAccountSumTypeAmount(int accountTypeId, DateTime pStartTime, DateTime pEndTime, string pType)
+        public List<DateTime[]> GetTimeSpan(DateTime pStartTime, DateTime pEndTime)
         {
-            var incomeExpenseResult = SumTypeAmount(accountTypeId, pStartTime, pEndTime, pType);
-            var total = incomeExpenseResult.Sum(p => p.Amount);
+            var list = new List<DateTime[]>();
+            TimeSpan span = pEndTime - pStartTime;
+            string[] arrySpan = span.ToString().Split('.');
+            int days = arrySpan.Length > 0 ? Convert.ToInt32(arrySpan[0]) : 0;
 
-            var result = (from a in incomeExpenseResult
-                          select new IncomeExpenseResult
-                          {
-                              AccountItermId = a.AccountItermId,
-                              Amount = a.Amount,
-                              AccountTypeId = a.AccountTypeId,
-                              AccountIterm = a.AccountIterm,
-                              PTime = a.PTime,
-                              PType = a.PType,
-                              AccountType = a.AccountType,
-                              StrPercentage = Math.Round((a.Amount / total * 100), 2).ToString() + "%",
-                              Percentage= Math.Round((a.Amount / total * 100), 2)
-                          }).ToList();
+            if (days <= 30)
+            {
+                list.Add(new DateTime[] { pStartTime, pEndTime });
+            }
+            else if (days > 30 && days <= 120)
+            {
+                list = AddTime(pStartTime, pEndTime,days,7);
+            }
+            else if (days > 120 && days <= 210)
+            {
+                list = AddTime(pStartTime, pEndTime, days, 15);
+            }
+            else if (days > 210)
+            {
+                list = AddTime(pStartTime, pEndTime, days, 30);
+            }
 
-            return result.OrderByDescending(p=>p.Percentage).ToList();
+            return list;
+        }
+
+        public List<DateTime[]> AddTime(DateTime pStartTime, DateTime pEndTime, int day, int span)
+        {
+            var list = new List<DateTime[]>();
+            int remainder = day % span;
+            pEndTime = pEndTime.AddDays(-remainder);
+
+            if (day <= 210)
+            {
+                while (pStartTime <= pEndTime)
+                {
+                    DateTime tempStartTime = pStartTime;
+                    pStartTime = pStartTime.AddDays(span - 6);
+                    list.Add(new DateTime[] { tempStartTime, pStartTime });
+                    pStartTime.AddDays(1);
+                }
+                if (remainder > 0)
+                {
+                    list.Add(new DateTime[] { pEndTime.AddDays(1), pEndTime.AddDays(remainder) });
+                }
+            }
+            else
+            {
+                int sMonth = pStartTime.Month;
+                int eMonth = pEndTime.Month;
+                int eYear = pEndTime.Year;
+                int sYear = pStartTime.Year;
+                for (int j = sYear; j <= eYear; j++)
+                {
+                    for (int i = sMonth; i <= eMonth; i++)
+                    {
+                        list.Add(new DateTime[] { Convert.ToDateTime(j.ToString()+"-"+i.ToString()+"-1"), Convert.ToDateTime(j.ToString() + "-" + i.ToString() + "-"+GetMonthDay(j,i)) }); ;
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        public string GetMonthDay(int year,int month)
+        {
+            string day = "";
+                switch (month)
+                {
+                    case 2:
+                    if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0))
+                        day = "29";
+                    else
+                        day = "28";
+                        break;
+                    case 4: //同样的判断条件这样用
+                    case 6:
+                    case 9:
+                    case 11:
+                        day = "30";
+                        break;
+                    default:
+                        day = "31";
+                        break;
+                }
+
+            return day;
         }
 
         public List<IncomeExpenseResult> SumTypeAmount2(int accountTypeId, DateTime pStartTime, DateTime pEndTime, string pType)
@@ -165,12 +291,10 @@ namespace BLL.Operate
             var incomeExpense = (from de in list
                                  group de by new
                                  {
-                                     de.PType,
                                      de.AccountTypeId
                                  } into t
                                  select new IncomeExpenseDetails
                                  {
-                                     PType = t.Key.PType,
                                      AccountTypeId = t.Key.AccountTypeId,
                                      Amount = t.Sum(x => x.Amount)
                                  }).ToList();
@@ -181,20 +305,12 @@ namespace BLL.Operate
                                        join c in accountType on a.AccountTypeId equals c.AccountTypeId
                                        select new IncomeExpenseResult
                                        {
-                                           AccountItermId = a.AccountItermId,
                                            Amount = a.Amount,
                                            AccountTypeId = a.AccountTypeId,
                                            AccountType = c.AccountType,
-                                           PTime = a.PTime,
-                                           PType = a.PType
                                        }).ToList();
 
             return incomeExpenseResult;
-        }
-
-        public List<LineResult> GetAccountTypeIncomeExpenseLine(int accountTypeId, DateTime pStartTime, DateTime pEndTime, string pType)
-        {
-            throw new NotImplementedException();
         }
     }
 }

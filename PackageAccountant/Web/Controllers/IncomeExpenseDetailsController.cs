@@ -53,5 +53,19 @@ namespace Web.Controllers
             }
             return result;
         }
+
+        [HttpGet("GetIncomeExpenseForLineChart")]
+        [EnableCors("any")]
+        public AppResult<LineResult> GetIncomeExpenseForLineChart(string accountTypeId, string pStartTime, string pEndTime, string pType)
+        {
+            var result = new AppResult<LineResult>();
+            if (!string.IsNullOrEmpty(accountTypeId) && !string.IsNullOrEmpty(pStartTime) && !string.IsNullOrEmpty(pEndTime) && pStartTime != "undefined" && pEndTime != "undefined")
+            {
+                var list = _iincomExpenseBll.GetAccountTypeIncomeExpenseLine(Convert.ToInt32(accountTypeId), Convert.ToDateTime(pStartTime), Convert.ToDateTime(pEndTime), pType);
+                result.list = list;
+                result.count = list[0].data.Count;
+            }
+            return result;
+        }
     }
 }
